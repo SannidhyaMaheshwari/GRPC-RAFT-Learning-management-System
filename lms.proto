@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+
+
+message FileChunk {
+    bytes content = 1;
+    string filename = 2;
+    string token = 3;
+    string type = 4 ;
+
+}
+
+message FileRequest {
+    string filename = 1;
+    string token = 2;
+    string type = 3;
+    string path = 4;
+}
+
+message UploadStatus {
+    bool success = 1;
+    string message = 2;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+  string role = 3;  // "student" or "instructor"
+}
+
+message LoginResponse {
+  bool status = 1;
+  string token = 2;
+  string message = 3;
+}
+
+message LogoutRequest {
+  string token = 1;
+}
+
+message LogoutResponse {
+  bool status = 1;
+  string message = 2;
+}
+
+message listRequest{
+  string token = 1;
+  string type = 2;
+  string path = 3;
+
+}
+message listResponse{
+  string lst = 1;
+  string type = 2;
+}
+
+
+message gradeReq{
+  string token = 1;
+ string username = 2;
+ string filename =3 ;
+ string no = 4; 
+}
+message gradeRes{
+  bool status = 1;
+  string message = 2;
+}
+
+message llmreq{
+  string token = 1;
+  string quetion = 2;
+  string type = 3;
+  string filename = 4;
+
+}
+
+message llmres{
+  bool status = 1;
+  string message = 2;
+  string ans = 3;
+
+}
+
+message TermCandIDPair {
+    int32 term = 1;
+    int32 candidateID = 2;
+}
+
+message RequestVoteRequest {
+    TermCandIDPair candidate = 1;
+    int32 lastLogIndex = 2;
+    int32 lastLogTerm = 3;
+}
+
+message TermResultPair {
+    int32 term = 1;
+    bool verdict = 2;
+}
+
+message RequestVoteResponse {
+    TermResultPair result = 1;
+}
+
+message TermLeaderIDPair {
+    int32 term = 1;
+    int32 leaderID = 2;
+}
+
+message LogEntry {
+    int32 term = 1;
+    string command = 2;
+}
+
+message AppendEntriesRequest {
+    TermLeaderIDPair leader = 1;
+    int32 prevLogIndex = 2;
+    int32 prevLogTerm = 3;
+    repeated LogEntry entries = 4;
+    int32 leaderCommit = 5;
+}
+
+message AppendEntriesResponse {
+    TermResultPair result = 1;
+}
+
+message Empty {}
+
+message GetLeaderResponse {
+    int32 nodeId = 1;
+    string nodeAddress = 2;
+}
+
+message SuspendRequest {
+    int32 period = 1;
+}
+
+
+service LMSService {
+    rpc login(LoginRequest) returns (LoginResponse);
+    rpc logout(LogoutRequest) returns (LogoutResponse);
+
+    rpc UploadFile(stream FileChunk) returns (UploadStatus);
+    rpc ReplicateFile (stream FileChunk) returns (UploadStatus);
+    rpc DownloadFile(FileRequest) returns (stream FileChunk);
+
+    rpc listReq (listRequest) returns (listResponse);
+    rpc grade (gradeReq) returns (gradeRes);
+
+    rpc llmq (llmreq) returns (llmres);
+
+    rpc RequestVote (RequestVoteRequest) returns (RequestVoteResponse) {};
+    rpc AppendEntries (AppendEntriesRequest) returns (AppendEntriesResponse) {};
+
+    rpc GetLeader (Empty) returns (GetLeaderResponse) {};
+    rpc Suspend (SuspendRequest) returns (Empty) {};
+
+    
+}
