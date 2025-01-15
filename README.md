@@ -5,10 +5,10 @@ tolerance , leader election , log replication , and RPC communication using gRPC
 depending on the data provided .
 
 to compile proto file - 
-python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. <name>.proto
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. \<name\>.proto
 
 to run server - 
-python lms_server.py <server no>
+python lms_server.py \<server no\>
 
 to run client -
 python lms_client.py 
