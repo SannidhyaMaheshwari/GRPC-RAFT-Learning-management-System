@@ -6,8 +6,8 @@ tolerance , leader election , log replication , and RPC communication using gRPC
 depending on the data provided.
 
 
-## Run Locally
-
+## Run on multiple systems or locally
+update config.conf file accordingly
 Clone the project
 
 ```bash
