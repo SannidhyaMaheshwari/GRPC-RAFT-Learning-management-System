@@ -37,3 +37,6 @@ to run client -
 
 note - you may need to install grpc and other dependencies and running server first time may take time because of LLM.
 
+youtube video - <br/> [distrbuted Lms working ](https://youtu.be/IYA3SbOJ5y8) 
+<br/>
+[distrbuted Lms working + RAFT ](https://youtu.be/pyflnlcMITA) 
